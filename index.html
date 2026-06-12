@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WA Bulk Sender</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Sidebar ─────────────────────────────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.845L.057 23.492a.5.5 0 0 0 .614.612l5.796-1.524A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.686-.522-5.204-1.43l-.373-.22-3.862 1.015 1.03-3.77-.242-.389A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    </div>
+    <span>WA Sender</span>
+  </div>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" data-page="send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <span>Send</span>
+    </button>
+    <button class="nav-item" data-page="contacts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Contacts</span>
+    </button>
+    <button class="nav-item" data-page="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span>Settings</span>
+    </button>
+  </nav>
+</aside>
+
+<!-- ── Main ────────────────────────────────────────────────────── -->
+<div class="main-wrapper">
+
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="brand-icon sm">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.523 5.845L.057 23.492a.5.5 0 0 0 .614.612l5.796-1.524A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.686-.522-5.204-1.43l-.373-.22-3.862 1.015 1.03-3.77-.242-.389A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      </div>
+      <span id="topbar-title">Send</span>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- ── SEND ───────────────────────────────────────────────── -->
+    <section class="page active" id="page-send">
+      <div class="page-header">
+        <h1>Send Messages</h1>
+        <p>Configure your batch and start sending</p>
+      </div>
+
+      <!-- Warning banners -->
+      <div class="alert alert-warning" id="warn-settings" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>API credentials missing. <button class="btn-link" onclick="navigate('settings')">Go to Settings →</button></span>
+      </div>
+      <div class="alert alert-warning" id="warn-contacts" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>No contacts loaded. <button class="btn-link" onclick="navigate('contacts')">Upload a file →</button></span>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon total"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div><div class="stat-value" id="s-total">0</div><div class="stat-label">Total</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon sent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div><div class="stat-value" id="s-sent">0</div><div class="stat-label">Sent</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><div class="stat-value" id="s-pending">0</div><div class="stat-label">Pending</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon failed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+          <div><div class="stat-value" id="s-failed">0</div><div class="stat-label">Failed</div></div>
+        </div>
+      </div>
+
+      <!-- Send card -->
+      <div class="card">
+        <h2>Batch Settings</h2>
+
+        <div class="send-controls">
+          <div class="control-group">
+            <label>Messages to send now</label>
+            <p class="form-hint">How many pending contacts to message in this session</p>
+            <input type="number" id="batch-size" class="form-input sm" value="50" min="1" max="500" />
+          </div>
+          <div class="control-group">
+            <label>Delay between messages</label>
+            <p class="form-hint">Seconds to wait between each message (15s minimum recommended)</p>
+            <div class="delay-row">
+              <input type="number" id="delay-sec" class="form-input sm" value="15" min="5" max="300" />
+              <span class="unit">seconds</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box" style="margin-top:4px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div>
+            <strong>Keep this tab open while sending</strong>
+            <p>Messages are sent from your browser. Don't close or refresh until the batch is complete.</p>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="send-actions" id="send-actions">
+          <button class="btn btn-primary btn-lg" id="send-btn" onclick="startSending()">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Start Sending
+          </button>
+        </div>
+
+        <!-- Progress (hidden until sending) -->
+        <div id="send-progress" style="display:none">
+          <div class="progress-labels">
+            <span id="progress-label">Sending…</span>
+            <span id="progress-count">0 / 0</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+          <div class="current-contact" id="current-contact"></div>
+
+          <div class="progress-actions">
+            <button class="btn btn-ghost" id="pause-btn" onclick="togglePause()">Pause</button>
+            <button class="btn btn-danger btn-sm" onclick="stopSending()">Stop</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACTS ────────────────────────────────────────────── -->
+    <section class="page" id="page-contacts">
+      <div class="page-header">
+        <h1>Contacts</h1>
+        <p>Upload your Excel or CSV file</p>
+      </div>
+
+      <div class="card">
+        <h2>Upload File</h2>
+        <p class="text-muted">Must have a <strong>Phone</strong> column. <strong>Name</strong> is optional. 10-digit numbers get country code added automatically.</p>
+
+        <div class="dropzone" id="dropzone">
+          <div class="dropzone-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div class="dropzone-text">
+            <strong>Drop your Excel / CSV file here</strong>
+            <span>or click to browse</span>
+          </div>
+          <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none" />
+        </div>
+
+        <div class="upload-feedback" id="upload-feedback" style="display:none">
+          <div class="feedback-icon success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div class="feedback-title" id="feedback-title"></div>
+            <div class="feedback-sub"  id="feedback-sub"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="contacts-header">
+          <h2>Contact List</h2>
+          <div class="contacts-actions">
+            <button class="btn btn-sm btn-ghost" onclick="retryFailed()">Retry Failed</button>
+            <button class="btn btn-sm btn-ghost" onclick="resetAll()">Reset All</button>
+            <button class="btn btn-sm btn-danger" onclick="clearContacts()">Clear All</button>
+          </div>
+        </div>
+
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="tab active" data-filter="all">All <span class="tab-count" id="tc-all">0</span></button>
+          <button class="tab" data-filter="pending">Pending <span class="tab-count" id="tc-pending">0</span></button>
+          <button class="tab" data-filter="sent">Sent <span class="tab-count" id="tc-sent">0</span></button>
+          <button class="tab" data-filter="failed">Failed <span class="tab-count" id="tc-failed">0</span></button>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Status</th><th>Time</th></tr></thead>
+            <tbody id="contacts-tbody">
+              <tr class="empty-row"><td colspan="5"><div class="empty-state">No contacts yet.</div></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination" id="pagination" style="display:none">
+          <button class="btn btn-sm btn-ghost" id="prev-btn" onclick="changePage(-1)">← Prev</button>
+          <span id="page-info">Page 1 of 1</span>
+          <button class="btn btn-sm btn-ghost" id="next-btn" onclick="changePage(1)">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SETTINGS ────────────────────────────────────────────── -->
+    <section class="page" id="page-settings">
+      <div class="page-header">
+        <h1>Settings</h1>
+        <p>Your API credentials are stored locally in your browser only</p>
+      </div>
+
+      <div class="card">
+        <h2>API Credentials</h2>
+
+        <div class="form-group">
+          <label class="form-label">Phone Number ID <span class="required">*</span></label>
+          <input type="text" class="form-input" id="cfg-phone-id" placeholder="e.g. 123456789012345" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Access Token <span class="required">*</span></label>
+          <div class="input-row">
+            <input type="password" class="form-input" id="cfg-token" placeholder="Your permanent access token" />
+            <button class="btn btn-sm btn-ghost" onclick="toggleToken()">Show</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Template Name <span class="required">*</span></label>
+          <input type="text" class="form-input" id="cfg-template" placeholder="e.g. hello_world" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Template Language</label>
+          <select class="form-input" id="cfg-lang">
+            <option value="en_US">English (en_US)</option>
+            <option value="en">English (en)</option>
+            <option value="hi">Hindi (hi)</option>
+            <option value="mr">Marathi (mr)</option>
+            <option value="gu">Gujarati (gu)</option>
+            <option value="ta">Tamil (ta)</option>
+            <option value="te">Telugu (te)</option>
+            <option value="kn">Kannada (kn)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Default Country Code</label>
+          <input type="text" class="form-input sm" id="cfg-country" placeholder="91" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Template Variables <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+          <p class="form-hint">Excel column names mapped to {{1}}, {{2}}… Comma-separated. E.g. <code>Name,City</code></p>
+          <input type="text" class="form-input" id="cfg-variables" placeholder="Name" />
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+          <button class="btn btn-ghost" id="test-btn" onclick="testConnection()">Test Connection</button>
+        </div>
+        <div id="test-result" style="display:none" class="test-result"></div>
+      </div>
+
+      <!-- Guide -->
+      <div class="card">
+        <button class="accordion-trigger" onclick="toggleAccordion()">
+          <span>How to get your credentials</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="acc-arrow"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div id="acc-body" style="display:none" class="accordion-body">
+          <ol class="guide-steps">
+            <li><strong>Create a Meta Developer Account</strong><p>Go to <strong>developers.facebook.com</strong> and sign in.</p></li>
+            <li><strong>Create an App</strong><p>Click "Create App" → Select "Business" → Fill in your app name.</p></li>
+            <li><strong>Add WhatsApp Product</strong><p>Inside your app → "Add Products" → WhatsApp → Set Up.</p></li>
+            <li><strong>Get Your Phone Number ID</strong><p>Go to WhatsApp → API Setup. Copy the Phone Number ID shown.</p></li>
+            <li><strong>Get a Permanent Access Token</strong><p>Business Settings → System Users → Create user → Generate token with <strong>whatsapp_business_messaging</strong> permission.</p></li>
+            <li><strong>Create a Message Template</strong><p>WhatsApp Manager → Message Templates → Create & submit for approval. Takes a few minutes to 24 hours.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Bottom nav -->
+<nav class="bottom-nav">
+  <button class="bottom-item active" data-page="send">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    <span>Send</span>
+  </button>
+  <button class="bottom-item" data-page="contacts">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    <span>Contacts</span>
+  </button>
+  <button class="bottom-item" data-page="settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    <span>Settings</span>
+  </button>
+</nav>
+
+<div id="toast-container"></div>
+<script src="app.js"></script>
+</body>
+</html>
