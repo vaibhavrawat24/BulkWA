@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Data folder (contains API tokens, contacts, logs — keep private)
+data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+.claude/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.*
